@@ -17,12 +17,13 @@ document.getElementById('submit-song').addEventListener('click', () => {
                                 <p class="author lead">Album by <span>${albumName[index]}</span></p>
                             </div>
                             <div class="col-md-3 text-md-right text-center">
-                                <button name="${songID[index]}" class="btn btn-success">Get Lyrics</button>
+                                <button id="${songID[index]}" class="btn btn-success">Get Lyrics</button>
                             </div>
                         </div>`;
 
-                document.getElementById('show-song-list').addEventListener('click', element => {
-                    let clickId = element.target.getAttribute('name');
+                // Lyrics part start Here
+                document.getElementById('result').addEventListener('click', element => {
+                    let clickId = element.target.getAttribute('id');
                     if (songID[index] == clickId) {
                         fetch(`https://api.lyrics.ovh/v1/${songArtist[index]}/${songTitle[index]}`)
                             .then(res => {
@@ -37,17 +38,17 @@ document.getElementById('submit-song').addEventListener('click', () => {
                                                 <h2 class="text-success mb-4">${songTitle[index]} - ${songArtist[index]}</h2>
                                                 <pre class="lyric text-white">${data.lyrics}</pre>
                                             </div>`
-                                document.getElementById('show-song-list').innerHTML = html;
+                                document.getElementById('result').innerHTML = html;
                             })
                             .catch((error) => {
                                 let html = `<div class="single-lyrics text-center">
                                                 <h2 class="text-success mb-4">Sorry, This Lyrics is missing.</h2>
                                             </div>`;
-                                document.getElementById('show-song-list').innerHTML = html;
+                                document.getElementById('result').innerHTML = html;
                             })
                     }
-                })
+                })// Lyrics part end here.
             }
-            document.getElementById('show-song-list').innerHTML = html;
+            document.getElementById('result').innerHTML = html;
         });
 });
